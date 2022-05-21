@@ -268,7 +268,8 @@ var SyslogCmd = &gcli.Command{
 
 				bs, err := br.ReadBytes(0)
 				if err != nil {
-					panic(err)
+					fmt.Println(err)
+					continue
 				}
 
 				bs = bytes.TrimRight(bs, "\x0a\x00")
