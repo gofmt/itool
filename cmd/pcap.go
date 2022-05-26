@@ -52,7 +52,7 @@ var PcapCmd = &gcli.Command{
 			}()
 
 			go func() {
-				if err := frida.Start(ctx, device.UDID, app.CFBundleIdentifier, keylogSource, func(s string, bs []byte) {
+				if err := frida.Start(ctx, device.SerialNumber, app.CFBundleIdentifier, keylogSource, func(s string, bs []byte) {
 					c.Println(s)
 				}); err != nil {
 					c.Errorln(err)
@@ -60,7 +60,7 @@ var PcapCmd = &gcli.Command{
 			}()
 		}
 
-		pcapClient, err := pcap.NewClient(device.UDID)
+		pcapClient, err := pcap.NewClient(device.SerialNumber)
 		if err != nil {
 			fmt.Println("创建PCAP客户端错误:", err)
 			os.Exit(-1)

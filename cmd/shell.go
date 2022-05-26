@@ -45,7 +45,7 @@ var ShellCmd = &gcli.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		if err := forward.Start(ctx, device.UDID, lport, rport, func(s string, err error) {
+		if err := forward.Start(ctx, device.SerialNumber, lport, rport, func(s string, err error) {
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(-1)
@@ -144,7 +144,7 @@ func shellRun(rport int, cmd string) (result []byte, err error) {
 		return nil, err
 	}
 
-	if err := forward.Start(ctx, device.UDID, lport, rport, func(s string, err error) {
+	if err := forward.Start(ctx, device.SerialNumber, lport, rport, func(s string, err error) {
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(-1)

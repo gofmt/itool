@@ -61,7 +61,7 @@ var ScpCmd = &gcli.Command{
 			return err
 		}
 
-		if err := forward.Start(context.Background(), device.UDID, lPort, rport, nil); err != nil {
+		if err := forward.Start(context.Background(), device.SerialNumber, lPort, rport, nil); err != nil {
 			return err
 		}
 

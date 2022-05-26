@@ -18,7 +18,7 @@ func TestStart(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err := Start(ctx, device.UDID, "com.elong.app", "console.log('hello world!')", func(s string, bs []byte) {
+	if err := Start(ctx, device.SerialNumber, "com.elong.app", "console.log('hello world!')", func(s string, bs []byte) {
 		t.Log(s)
 		cancel()
 	}); err != nil {

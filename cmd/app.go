@@ -23,7 +23,7 @@ var AppCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := installation.NewClient(device.UDID)
+		cli, err := installation.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -71,7 +71,7 @@ var InstallCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := installation.NewClient(device.UDID)
+		cli, err := installation.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -104,7 +104,7 @@ var UninstallCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := installation.NewClient(device.UDID)
+		cli, err := installation.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -117,7 +117,7 @@ var UninstallCmd = &gcli.Command{
 }
 
 func GetAppDisplayName(device *idevice.DeviceAttachment, bundleID string) (string, error) {
-	appCli, err := installation.NewClient(device.UDID)
+	appCli, err := installation.NewClient(device.SerialNumber)
 	if err != nil {
 		return "", err
 	}
@@ -129,7 +129,7 @@ func GetAppDisplayName(device *idevice.DeviceAttachment, bundleID string) (strin
 }
 
 func GetAppWithBundleID(device *idevice.DeviceAttachment, bundleID string) (*installation.AppInfo, error) {
-	appCli, err := installation.NewClient(device.UDID)
+	appCli, err := installation.NewClient(device.SerialNumber)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func GetAppWithBundleID(device *idevice.DeviceAttachment, bundleID string) (*ins
 }
 
 func GetSelectApp(device *idevice.DeviceAttachment) (*installation.AppInfo, error) {
-	appCli, err := installation.NewClient(device.UDID)
+	appCli, err := installation.NewClient(device.SerialNumber)
 	if err != nil {
 		return nil, err
 	}

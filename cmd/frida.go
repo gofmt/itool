@@ -55,7 +55,7 @@ var FridaCmd = &gcli.Command{
 		ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 		defer cancel()
 
-		return frida.Start(ctx, device.UDID, bundleID, string(source), func(s string, bs []byte) {
+		return frida.Start(ctx, device.SerialNumber, bundleID, string(source), func(s string, bs []byte) {
 			if len(strings.TrimSpace(fridaOut)) > 0 {
 				_ = ioutil.WriteFile(fridaOut, bs, os.ModePerm)
 			}
@@ -108,7 +108,7 @@ var dumpCmd = &gcli.Command{
 
 		payloadPath := filepath.Join(tempPath, "Payload")
 		_ = os.MkdirAll(payloadPath, os.ModePerm)
-		return frida.Start(ctx, device.UDID, bundleID, dumpScript, func(s string, bs []byte) {
+		return frida.Start(ctx, device.SerialNumber, bundleID, dumpScript, func(s string, bs []byte) {
 			logMap := make(map[string]interface{})
 			if err := json.Unmarshal([]byte(s), &logMap); err != nil {
 				c.Errorln(err)

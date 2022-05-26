@@ -122,7 +122,7 @@ EOF`, itoolPath))
 			}
 		}()
 
-		if err := forward.Start(ctx, device.UDID, 1234, 1234, func(s string, err error) {
+		if err := forward.Start(ctx, device.SerialNumber, 1234, 1234, func(s string, err error) {
 			if err != nil {
 				c.Errorln(err)
 				os.Exit(-1)

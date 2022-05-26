@@ -48,7 +48,7 @@ var DeviceCmd = &gcli.Command{
 		_, _ = fmt.Fprintln(w, "--------------------------------------------------------------")
 
 		for i, device := range devices {
-			cli, err := lockdownd.NewClient(device.UDID)
+			cli, err := lockdownd.NewClient(device.SerialNumber)
 			if err != nil {
 				return err
 			}
@@ -97,7 +97,7 @@ var DeviceCmd = &gcli.Command{
 
 		homeDir, _ := os.UserHomeDir()
 		device := devices[idx]
-		return ioutil.WriteFile(filepath.Join(homeDir, ".itool"), []byte(device.UDID), os.ModePerm)
+		return ioutil.WriteFile(filepath.Join(homeDir, ".itool"), []byte(device.SerialNumber), os.ModePerm)
 	},
 }
 
@@ -110,7 +110,7 @@ var InfoCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := lockdownd.NewClient(device.UDID)
+		cli, err := lockdownd.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -156,7 +156,7 @@ var ScreenShotCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := screenshotr.NewClient(device.UDID)
+		cli, err := screenshotr.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -190,7 +190,7 @@ var RestartCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := diagnostics.NewClient(device.UDID)
+		cli, err := diagnostics.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -211,7 +211,7 @@ var ShutdownCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := diagnostics.NewClient(device.UDID)
+		cli, err := diagnostics.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -238,7 +238,7 @@ var SyslogCmd = &gcli.Command{
 			return err
 		}
 
-		r, err := syslog.Syslog(device.UDID)
+		r, err := syslog.Syslog(device.SerialNumber)
 		if err != nil {
 			return err
 		}

@@ -25,7 +25,7 @@ var FileCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := afc.NewClient(device.UDID)
+		cli, err := afc.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -61,7 +61,7 @@ var MkdirCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := afc.NewClient(device.UDID)
+		cli, err := afc.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -85,7 +85,7 @@ var RmdirCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := afc.NewClient(device.UDID)
+		cli, err := afc.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -109,7 +109,7 @@ var RemoveCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := afc.NewClient(device.UDID)
+		cli, err := afc.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -134,7 +134,7 @@ var PushCmd = &gcli.Command{
 			return err
 		}
 
-		cli, err := afc.NewClient(device.UDID)
+		cli, err := afc.NewClient(device.SerialNumber)
 		if err != nil {
 			return err
 		}
@@ -166,7 +166,7 @@ var PullCmd = &gcli.Command{
 }
 
 func pull(device *idevice.DeviceAttachment, src, dst string) error {
-	cli, err := afc.NewClient(device.UDID)
+	cli, err := afc.NewClient(device.SerialNumber)
 	if err != nil {
 		return err
 	}
@@ -181,7 +181,7 @@ func pull(device *idevice.DeviceAttachment, src, dst string) error {
 }
 
 func push(device *idevice.DeviceAttachment, src, dst string) error {
-	cli, err := afc.NewClient(device.UDID)
+	cli, err := afc.NewClient(device.SerialNumber)
 	if err != nil {
 		return err
 	}

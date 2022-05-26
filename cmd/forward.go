@@ -30,7 +30,7 @@ var ForwardCmd = &gcli.Command{
 		lport := c.Arg("lport").Int()
 		rport := c.Arg("rport").Int()
 
-		if err := forward.Start(ctx, device.UDID, lport, rport, func(s string, err error) {
+		if err := forward.Start(ctx, device.SerialNumber, lport, rport, func(s string, err error) {
 			if err != nil {
 				c.Errorln(err)
 				os.Exit(-1)
