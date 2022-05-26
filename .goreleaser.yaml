@@ -16,6 +16,7 @@ builds:
       - CGO_ENABLED=1
       - CC=o64-clang
       - CXX=o64-clang++
+      - GOPROXY=https://goproxy.cn,direct
     main: ./main.go
     goos:
       - darwin
@@ -25,6 +26,7 @@ builds:
     binary: itool
     env:
       - CGO_ENABLED=1
+      - GOPROXY=https://goproxy.cn,direct
     main: ./main.go
     goos:
       - linux
