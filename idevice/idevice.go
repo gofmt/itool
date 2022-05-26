@@ -32,7 +32,7 @@ func GetDefaultDevice() (*DeviceAttachment, error) {
 	}
 
 	for _, device := range devices {
-		if device.UDID == string(bs) {
+		if device.SerialNumber == string(bs) {
 			return device, nil
 		}
 	}

@@ -36,7 +36,7 @@ func NewClient(udid string, port int) (*Client, error) {
 
 	deviceID := -1
 	for _, device := range devices {
-		if device.UDID == udid {
+		if device.SerialNumber == udid {
 			deviceID = device.DeviceID
 			break
 		}

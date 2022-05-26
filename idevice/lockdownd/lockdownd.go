@@ -1,6 +1,7 @@
 package lockdownd
 
 import (
+	"encoding/binary"
 	"github.com/gofmt/itool/idevice"
 )
 
@@ -24,7 +25,7 @@ type startSessionResponse struct {
 }
 
 func NewClient(udid string) (*Client, error) {
-	cli, err := idevice.NewClient(udid, 62078)
+	cli, err := idevice.NewClient(udid, int(Ntohs(32498)))
 	if err != nil {
 		return nil, err
 	}
@@ -188,4 +189,10 @@ func (lc *Client) QueryType() (string, error) {
 
 func (lc *Client) Close() error {
 	return lc.Client.Close()
+}
+
+func Ntohs(port uint16) uint16 {
+	buf := make([]byte, 2)
+	binary.BigEndian.PutUint16(buf, port)
+	return binary.LittleEndian.Uint16(buf)
 }

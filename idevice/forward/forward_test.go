@@ -13,7 +13,7 @@ func TestStart(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err := Start(context.Background(), device.UDID, 2222, 2222, func(s string, err error) {
+	if err := Start(context.Background(), device.SerialNumber, 2222, 2222, func(s string, err error) {
 		if err != nil {
 			t.Fatal(err)
 		}

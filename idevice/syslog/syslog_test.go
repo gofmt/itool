@@ -22,12 +22,11 @@ func TestSyslog(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	for _, device := range devices {
-		r, err := Syslog(device.UDID)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		io.Copy(os.Stdout, r)
+	device := devices[0]
+	r, err := Syslog(device.SerialNumber)
+	if err != nil {
+		t.Fatal(err)
 	}
+
+	io.Copy(os.Stdout, r)
 }
