@@ -32,6 +32,7 @@ help         显示帮助信息
 
 ## 交流
 QQ群: 280090
+TG群: https://t.me/+vK3cWQ9p9B85OTg1
 
 ## 感谢
 * https://github.com/4ch12dy/issh
