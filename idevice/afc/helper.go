@@ -1,10 +1,8 @@
 package afc
 
 import (
-	"fmt"
 	"io"
 	"os"
-	pathpkg "path"
 	"path/filepath"
 	"sort"
 )
@@ -40,7 +38,7 @@ func (c *Client) walk(path string, info os.FileInfo, walkFn filepath.WalkFunc) e
 		if name == "." || name == ".." {
 			continue
 		}
-		filename := pathpkg.Join(path, name)
+		filename := filepath.Join(path, name)
 		fileInfo, err := c.GetFileInfo(filename)
 		if err != nil {
 			if err := walkFn(filename, fileInfo, err); err != nil && err != filepath.SkipDir {
@@ -109,10 +107,9 @@ func (c *Client) CopyToDevice(dst, src string, copyCbFn CopyCallbackFunc) error 
 	}
 	if srcInfo.IsDir() {
 		return filepath.Walk(src, func(path string, info os.FileInfo, err error) error {
-			targetPath := pathpkg.Join(dst, path)
-			fmt.Println(targetPath, path)
+			targetPath := filepath.Join(dst, filepath.Base(path))
 			if info.IsDir() {
-				return c.MakeDir(targetPath)
+				return c.MakeDir(dst)
 			}
 			err = c.CopyFileToDevice(targetPath, path)
 			if copyCbFn != nil {
@@ -125,7 +122,7 @@ func (c *Client) CopyToDevice(dst, src string, copyCbFn CopyCallbackFunc) error 
 	target := dst
 	if dstInfo, err := c.GetFileInfo(dst); err == nil {
 		if dstInfo.IsDir() {
-			target = pathpkg.Join(dst, pathpkg.Base(src))
+			target = filepath.Join(dst, filepath.Base(src))
 		}
 	}
 	return c.CopyFileToDevice(target, src)
@@ -139,7 +136,7 @@ func (c *Client) CopyFromDevice(dst, src string, copyCbFn CopyCallbackFunc) erro
 	if srcInfo.IsDir() {
 		return c.Walk(src, func(path string, info os.FileInfo, err error) error {
 			// If destination is a directory, append the path to it
-			targetPath := pathpkg.Join(dst, path)
+			targetPath := filepath.Join(dst, path)
 			if info.IsDir() {
 				_ = os.Mkdir(targetPath, 0755)
 				return nil
@@ -154,7 +151,7 @@ func (c *Client) CopyFromDevice(dst, src string, copyCbFn CopyCallbackFunc) erro
 	target := dst
 	if dstInfo, err := os.Stat(dst); err == nil {
 		if dstInfo.IsDir() {
-			target = pathpkg.Join(dst, pathpkg.Base(src))
+			target = filepath.Join(dst, filepath.Base(src))
 		}
 	}
 	return c.CopyFileFromDevice(target, src)

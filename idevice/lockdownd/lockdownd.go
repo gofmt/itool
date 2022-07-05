@@ -2,6 +2,7 @@ package lockdownd
 
 import (
 	"encoding/binary"
+
 	"github.com/gofmt/itool/idevice"
 )
 

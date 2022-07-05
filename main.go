@@ -29,7 +29,7 @@ func main() {
 	})
 
 	app.On(gcli.EvtCmdNotFound, func(data ...interface{}) (stop bool) {
-		app.Println(`没有这个命令 "%s"`, data[1])
+		app.Printf(`没有这个命令 "%s"`, data[1])
 		app.Println("\n使用 itool --help 查看可用的命令")
 		return true
 	})

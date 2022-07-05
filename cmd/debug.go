@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"time"
 
 	"github.com/gofmt/itool/idevice"
 	"github.com/gofmt/itool/idevice/forward"
@@ -15,6 +16,9 @@ import (
 var DebugCmd = &gcli.Command{
 	Name: "debug",
 	Desc: "启动 debugserver 调试目标应用",
+	Config: func(c *gcli.Command) {
+		c.IntOpt(&rport, "rport", "r", 22, "设备SSH端口")
+	},
 	Func: func(c *gcli.Command, args []string) error {
 		device, err := idevice.GetDefaultDevice()
 		if err != nil {
@@ -115,25 +119,33 @@ EOF`, itoolPath))
 			defer cancel()
 
 			c.Println(fmt.Sprintf("%s debugging...", app.CFBundleDisplayName))
-			_, err = shellRun(rport, fmt.Sprintf(`%s 127.0.0.1:1234 %s -x backboard`, debugserverPath, execPath))
+			dbgcmd := fmt.Sprintf(`%s 127.0.0.1:1234 %s -x backboard`, debugserverPath, execPath)
+			c.Println(fmt.Sprintf("debug params: %s", dbgcmd))
+			_, err = shellRun(rport, dbgcmd)
 			if err != nil {
 				c.Errorln(err)
 				return
 			}
+
+			c.Println("shell run exited.")
 		}()
 
-		if err := forward.Start(ctx, device.SerialNumber, 1234, 1234, func(s string, err error) {
-			if err != nil {
+		go func() {
+			time.Sleep(time.Second)
+			if err := forward.Start(ctx, device.SerialNumber, 1234, 1234, func(s string, err error) {
+				if err != nil {
+					c.Errorln(err)
+					os.Exit(-1)
+				}
+			}); err != nil {
 				c.Errorln(err)
 				os.Exit(-1)
 			}
-		}); err != nil {
-			return err
-		}
+		}()
 
 		<-ctx.Done()
 
-		c.Println(fmt.Sprintf("%s debugging has ended.", app.CFBundleDisplayName))
+		c.Println(fmt.Sprintf("%s debugging has exited.", app.CFBundleDisplayName))
 
 		return nil
 	},

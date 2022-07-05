@@ -275,14 +275,21 @@ var SyslogCmd = &gcli.Command{
 				bs = bytes.TrimRight(bs, "\x0a\x00")
 				line := decodeSyslog(bs)
 				ss := strings.Split(line, ">: ")
-				header := strings.Split(ss[0], " ")
+				head := strings.Split(ss[0], " ")
+				var header []string
+				for _, s := range head {
+					if strings.TrimSpace(s) == "" {
+						continue
+					}
+					header = append(header, s)
+				}
 				if c.Arg("key").HasValue() && !strings.Contains(line, c.Arg("key").String()) {
 					continue
 				}
 
 				t, err := time.Parse(time.Stamp, header[0]+" "+header[1]+" "+header[2])
 				if err != nil {
-					panic(err)
+					fmt.Println(err.Error(), strings.Join(header, "|"))
 				}
 
 				level := header[5][1:]
@@ -304,7 +311,7 @@ var SyslogCmd = &gcli.Command{
 
 				fmt.Printf(
 					"[%s](%s)[%s]: %s\n",
-					fgWhite(t.Format("01-02 15:04:05")),
+					fgWhite(t.Format("15:04:05")),
 					// gray(msg.DeviceName),
 					fgCyan(header[4]),
 					level,
